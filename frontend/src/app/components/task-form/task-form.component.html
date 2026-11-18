@@ -1,0 +1,45 @@
+<form class="task-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="field">
+    <label for="title">Title</label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      placeholder="What needs doing?"
+      autocomplete="off"
+      [attr.aria-invalid]="title.invalid && title.touched"
+      aria-describedby="title-error"
+    />
+    @if (title.touched && title.invalid) {
+      <p id="title-error" class="field-error">
+        @if (title.hasError('maxlength')) {
+          Keep the title under {{ limits.titleMaxLength }} characters.
+        } @else {
+          Enter a title for the task.
+        }
+      </p>
+    }
+  </div>
+
+  <div class="field">
+    <label for="description">Description <span class="optional">(optional)</span></label>
+    <textarea
+      id="description"
+      rows="3"
+      formControlName="description"
+      placeholder="Any details worth remembering"
+      [attr.aria-invalid]="description.invalid && description.touched"
+    ></textarea>
+    @if (description.touched && description.hasError('maxlength')) {
+      <p class="field-error">Keep the description under {{ limits.descriptionMaxLength }} characters.</p>
+    }
+  </div>
+
+  @if (errorMessage(); as message) {
+    <p class="form-error" role="alert">{{ message }}</p>
+  }
+
+  <button type="submit" [disabled]="saving()">
+    {{ saving() ? 'Adding…' : 'Add task' }}
+  </button>
+</form>

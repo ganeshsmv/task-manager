@@ -1,0 +1,20 @@
+@if (tasks.length === 0) {
+  <p class="empty">No tasks yet. Add your first one above.</p>
+} @else {
+  <ol class="timeline">
+    @for (task of tasks; track task.id) {
+      <li class="entry">
+        <time class="stamp" [attr.datetime]="task.createdAt">
+          <span class="day">{{ task.createdAt | date: 'd MMM' }}</span>
+          <span class="clock">{{ task.createdAt | date: 'HH:mm' }}</span>
+        </time>
+        <div class="body">
+          <h3>{{ task.title }}</h3>
+          @if (task.description) {
+            <p>{{ task.description }}</p>
+          }
+        </div>
+      </li>
+    }
+  </ol>
+}

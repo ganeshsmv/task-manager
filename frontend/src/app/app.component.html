@@ -1,0 +1,31 @@
+<main class="page">
+  <header class="masthead">
+    <h1>Task Manager</h1>
+    <p>Add a task and it's saved straight away.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="new-task-heading">
+    <h2 id="new-task-heading">New task</h2>
+    <app-task-form (created)="onTaskCreated($event)" />
+  </section>
+
+  <section class="panel" aria-labelledby="tasks-heading">
+    <div class="list-heading">
+      <h2 id="tasks-heading">Tasks</h2>
+      @if (!loading() && !loadError()) {
+        <span class="count">{{ tasks().length }}</span>
+      }
+    </div>
+
+    @if (loading()) {
+      <p class="status">Loading tasks…</p>
+    } @else if (loadError()) {
+      <div class="load-error" role="alert">
+        <p>{{ loadError() }}</p>
+        <button type="button" (click)="loadTasks()">Try again</button>
+      </div>
+    } @else {
+      <app-task-list [tasks]="tasks()" />
+    }
+  </section>
+</main>
